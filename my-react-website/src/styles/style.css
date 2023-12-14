@@ -1,0 +1,21 @@
+/* styles.css */
+.nav {
+    /* Navbar styles */
+  }
+  
+  .nav .active-tab.blue {
+    color: blue;
+  }
+  
+  .nav .active-tab.red {
+    color: red;
+  }
+  
+  .subnav.blue a {
+    color: blue;
+  }
+  
+  .subnav.red a {
+    color: red;
+  }
+  
