@@ -4,7 +4,8 @@ import Navbar from './components/common/navbar.jsx';
 import SubNavbar from './components/common/subnavbar.jsx';
 import HospitalPage from './pages/Hospital/Hospitalpage.jsx';
 import CharityPage from './pages/Charity/Charitypage.jsx';
-
+import OurServices from './pages/Hospital/OurServices.jsx'; // Import the OurServices component
+import Contactus from './pages/Hospital/Contactus.jsx'; // Import the OurServices component
 
 function App() {
   const [activeTab, setActiveTab] = useState('hospital'); // Default to hospital
@@ -14,9 +15,35 @@ function App() {
       <Navbar activeTab={activeTab} />
       <SubNavbar activeTab={activeTab} />
       <Routes>
-        <Route exact path="/" element={<HospitalPage />} />
-        <Route path="/hospital" element={<HospitalPage />} />
-        <Route path="/charity" element={<CharityPage />} />
+        <Route
+          exact
+          path="/hospital"
+          element={<HospitalPage />}
+          onClick={() => setActiveTab('hospital')} // Set activeTab to 'hospital' for the default route
+        />
+        <Route
+          path="/hospital"
+          element={<HospitalPage />}
+          onClick={() => setActiveTab('hospital')} // Set activeTab to 'hospital' for /hospital route
+        />
+        <Route
+          path="/charity"
+          element={<CharityPage />}
+          onClick={() => setActiveTab('charity')} // Set activeTab to 'charity' for /charity route
+        />
+         {/* Add route for Contact */}
+        <Route
+          path="/hospital/contact"
+          element={<Contactus />}
+          onClick={() => setActiveTab('hospital')} // Set activeTab to 'hospital' for /hospital/our-services route
+        />
+        {/* Add route for Our Services */}
+        <Route
+          path="/hospital/ourservices"
+          element={<OurServices />}
+          onClick={() => setActiveTab('hospital')} // Set activeTab to 'hospital' for /hospital/our-services route
+        />
+
         {/* Define other routes here */}
       </Routes>
     </Router>

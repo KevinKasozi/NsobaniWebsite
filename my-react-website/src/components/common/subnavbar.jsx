@@ -1,40 +1,47 @@
-// SubNavbar.jsx
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
-function SubNavbar({ activeTab }) {
-  const isHospital = activeTab === 'hospital';
+function SubNavbar() {
+  const location = useLocation();
+  const isHospitalDomain = location.pathname.startsWith('/hospital');
+  const isHospitalAbout = location.pathname === '/hospital/about';
+  const isHospitalContact = location.pathname === '/hospital/contact';
+  const isHospitalServices = location.pathname === '/hospital/ourservices';
 
   // Base styles for all subnav links
   const baseStyle = "inline-block rounded-full py-1 px-3 mr-3";
 
-  // Styles for active subnav link
-  const activeLinkStyle = isHospital
-    ? "bg-blue-500 text-white border border-blue-500"
-    : "bg-red-500 text-white border border-red-500";
+  // Determine the active tab color based on whether it's the hospital domain
+  const activeTabColor = isHospitalDomain ? 'blue' : 'red';
 
-  // Styles for inactive subnav link
-  const inactiveLinkStyle = isHospital
-    ? "text-blue-500 hover:bg-blue-500 hover:text-white"
-    : "text-red-500 hover:bg-red-500 hover:text-white";
+  // Styles for subnav links (Blue color scheme)
+  const linkStyle = `text-${activeTabColor}-500 hover:bg-${activeTabColor}-500 hover:text-white`;
 
   return (
-    <div className={`p-2 ${isHospital ? 'bg-blue-100' : 'bg-red-100'}`}>
+    <div className={`p-2 bg-${activeTabColor}-100`}>
       <ul className="flex">
         <li>
           <NavLink 
-            to={isHospital ? "/hospital/about" : "/charity/about"} 
-            className={`${baseStyle} ${activeLinkStyle}`}
+            to="/hospital/about" // Always set to the hospital's about page
+            className={`${baseStyle} ${isHospitalAbout ? linkStyle : ''}`}
           >
             About
           </NavLink>
         </li>
         <li>
           <NavLink 
-            to={isHospital ? "/hospital/contact" : "/charity/contact"} 
-            className={`${baseStyle} ${inactiveLinkStyle}`}
+            to="/hospital/contact" // Always set to the hospital's contact page
+            className={`${baseStyle} ${isHospitalContact ? linkStyle : ''}`}
           >
             Contact
+          </NavLink>
+        </li>
+        <li>
+          <NavLink 
+            to="/hospital/ourservices" // Always set to the hospital's contact page
+            className={`${baseStyle} ${isHospitalServices ? linkStyle : ''}`}
+          >
+            Our Services
           </NavLink>
         </li>
         {/* Additional links as needed */}
