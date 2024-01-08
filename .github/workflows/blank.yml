@@ -35,4 +35,4 @@ jobs:
         with:
           branch: deploywebsitetogithubpagesa
           folder: my-react-website/dist
-          token: ${{ secrets.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 }}
+          token: ${{ secrets.GH_PAGE_TOKEN }}
