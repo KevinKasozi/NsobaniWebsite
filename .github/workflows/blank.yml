@@ -23,14 +23,12 @@ jobs:
         working-directory: ./my-react-website
 
       - name: List output files
-          run: ls -l my-react-website
-          
+        run: ls -l my-react-website
+
       - name: Build the App
         run: npm run build
         working-directory: ./my-react-website
       
-
-
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
