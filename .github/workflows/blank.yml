@@ -31,7 +31,7 @@ jobs:
       
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
-        token: ${{ secrets.GH_PAGES_TOKEN }}
+        token: ${{ secrets.REPO }}
         with:
           branch: deploywebsitetogithubpagesa
           folder: my-react-website/dist
