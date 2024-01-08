@@ -10,7 +10,7 @@ import AboutUs from './pages/Hospital/Aboutus.jsx';
 
 function App() {
   const [activeTab, setActiveTab] = useState('hospital'); // Default to hospital
-// Default to hospital
+
   return (
     <Router>
       <Navbar activeTab={activeTab} />
