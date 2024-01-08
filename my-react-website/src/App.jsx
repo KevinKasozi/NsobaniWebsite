@@ -6,6 +6,7 @@ import HospitalPage from './pages/Hospital/Hospitalpage.jsx';
 import CharityPage from './pages/Charity/Charitypage.jsx';
 import OurServices from './pages/Hospital/OurServices.jsx'; // Import the OurServices component
 import Contactus from './pages/Hospital/Contactus.jsx'; // Import the OurServices component
+import AboutUs from './pages/Hospital/Aboutus.jsx';
 
 function App() {
   const [activeTab, setActiveTab] = useState('hospital'); // Default to hospital
@@ -31,7 +32,13 @@ function App() {
           element={<CharityPage />}
           onClick={() => setActiveTab('charity')} // Set activeTab to 'charity' for /charity route
         />
-         {/* Add route for Contact */}
+        {/* Add route for About */}
+        <Route
+          path="/hospital/about"
+          element={<AboutUs/>}
+          onClick={() => setActiveTab('hospital')} // Set activeTab to 'hospital' for /hospital/our-services route
+        />
+        {/* Add route for Contact */}
         <Route
           path="/hospital/contact"
           element={<Contactus />}

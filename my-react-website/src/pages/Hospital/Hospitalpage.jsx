@@ -1,9 +1,9 @@
 import React from 'react';
 import HospitalLayout from '../../components/common/HLayout.jsx';
-import AboutUs from '../Hospital/Aboutus.jsx';
-import ContactUs from '../Hospital/Contactus.jsx';
 import HeroCarousel from '../../components/carousel.jsx';
 import HospitalFeatures from '../Hospital/HospitalFeatures.jsx'; // Import the HospitalFeatures component
+import Stats from '../Hospital/Statistic.jsx'
+
 
 function HospitalPage() {
   return (
@@ -25,6 +25,7 @@ function HospitalPage() {
           </div>
         </div>
         <HospitalFeatures />
+        <Stats />
       </HospitalLayout>
     </div>
 
