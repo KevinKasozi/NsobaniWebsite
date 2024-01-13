@@ -1,14 +1,17 @@
 import React from 'react';
-import img1 from '../../assets/img2/laptop.jpg';
-import img2 from '../../assets/img2/nurses.jpg';
-import img3 from '../../assets/img2/research.jpg';
+import svgImg1 from '../../assets/svg/laptop-medical.svg';  // Update these paths to your actual SVG file locations
+import svgImg2 from '../../assets/svg/medical-files.svg';      // Update these paths to your actual SVG file locations
+import svgImg3 from '../../assets/svg/outpatient.svg';   // Update these paths to your actual SVG file locations
+import svgImg4 from '../../assets/svg/doctor.svg';  // Update these paths to your actual SVG file locations
+import svgImg5 from '../../assets/svg/medical-files.svg';      // Update these paths to your actual SVG file locations
+import svgImg6 from '../../assets/svg/cardiogram.svg';   // Update these paths to your actual SVG file locations
 
 const HospitalFeatures = () => {
   return (
     <section className="bg-blue-100 py-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-extrabold text-gray-900 text-center">
-          What We Have To Offer 
+          What We Have To Offer
         </h2>
         <div className="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {/* Feature 1 */}
@@ -16,8 +19,8 @@ const HospitalFeatures = () => {
             <div className="flex-shrink-0">
               <img
                 className="h-12 w-12"
-                src={img1}  // Use curly braces to reference the variable
-                alt="Feature 1 Icon"
+                src={svgImg1}
+                alt="Advanced Medical Technology"
               />
             </div>
             <div className="mt-4">
@@ -33,8 +36,8 @@ const HospitalFeatures = () => {
             <div className="flex-shrink-0">
               <img
                 className="h-12 w-12"
-                src={img2}  // Use curly braces to reference the variable
-                alt="Feature 2 Icon"
+                src={svgImg2}
+                alt="Experienced Medical Staff"
               />
             </div>
             <div className="mt-4">
@@ -50,8 +53,8 @@ const HospitalFeatures = () => {
             <div className="flex-shrink-0">
               <img
                 className="h-12 w-12"
-                src={img3}  // Use curly braces to reference the variable
-                alt="Feature 3 Icon"
+                src={svgImg3}
+                alt="Comprehensive Services"
               />
             </div>
             <div className="mt-4">
@@ -61,13 +64,13 @@ const HospitalFeatures = () => {
               </p>
             </div>
           </div>
-          {/* Feature 3 */}
+          {/* Feature 4 */}
           <div className="flex flex-col items-center">
             <div className="flex-shrink-0">
               <img
                 className="h-12 w-12"
-                src={img3}  // Use curly braces to reference the variable
-                alt="Feature 3 Icon"
+                src={svgImg4}
+                alt="Comprehensive Services"
               />
             </div>
             <div className="mt-4">
@@ -77,13 +80,14 @@ const HospitalFeatures = () => {
               </p>
             </div>
           </div>
-          {/* Feature 3 */}
+
+          {/* Feature 5 */}
           <div className="flex flex-col items-center">
             <div className="flex-shrink-0">
               <img
                 className="h-12 w-12"
-                src={img3}  // Use curly braces to reference the variable
-                alt="Feature 3 Icon"
+                src={svgImg5}
+                alt="Comprehensive Services"
               />
             </div>
             <div className="mt-4">
@@ -93,13 +97,14 @@ const HospitalFeatures = () => {
               </p>
             </div>
           </div>
-          {/* Feature 3 */}
+
+          {/* Feature 6 */}
           <div className="flex flex-col items-center">
             <div className="flex-shrink-0">
               <img
                 className="h-12 w-12"
-                src={img3}  // Use curly braces to reference the variable
-                alt="Feature 3 Icon"
+                src={svgImg6}
+                alt="Comprehensive Services"
               />
             </div>
             <div className="mt-4">
@@ -109,7 +114,10 @@ const HospitalFeatures = () => {
               </p>
             </div>
           </div>
-          {/* Add more features as needed */}
+
+
+
+          {/* Additional features can be added here */}
         </div>
       </div>
     </section>

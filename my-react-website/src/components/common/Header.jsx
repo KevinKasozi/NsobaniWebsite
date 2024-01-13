@@ -1,11 +1,16 @@
+// Header.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Navbar from './navbar';
+import SubNavbar from './subnavbar';
 
-const Header = ({ hospital, charity }) => {
+const Header = ({ activeTab, setActiveTab, logo }) => {
   return (
-    <header className={`p-4 ${hospital ? 'bg-blue-500' : charity ? 'bg-red-500' : 'bg-gray-200'}`}>
-      <Link to="/" className="text-lg font-bold text-white">Home</Link>
-      {/* Add more links and styles as needed */}
+    <header className="w-full">
+      <div className="flex-grow w-full px-4 sm:px-6 lg:px-80 py-4"> {/* Same padding as main content */}
+        {logo && <img src={logo} alt="Logo" className="logo-class" />}
+        <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+        <SubNavbar />
+      </div>
     </header>
   );
 };
