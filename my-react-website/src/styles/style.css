@@ -18,4 +18,11 @@
   .subnav.red a {
     color: red;
   }
+  .logo-class {
+    height: auto; /* Adjust the height accordingly */
+    width: auto; /* Maintain aspect ratio */
+    max-height: 100px; /* Set a maximum height */
+  }
+
+
   

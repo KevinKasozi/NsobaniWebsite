@@ -1,14 +1,17 @@
+// CharityLayout.jsx
 import React from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
-import Navbar from './navbar.jsx'
-import SubNavbar from './subnavbar.jsx';
+import cLogo from '../../assets/logos/charity.png'; // Update with actual path
 
-const CharityLayout = ({ children }) => {
+
+const CharityLayout = ({ children, activeTab, setActiveTab }) => {
   return (
-    <div>
-      <Header charity />
-      {children}
+    <div className="flex flex-col min-h-screen">
+      <Header logo={cLogo} activeTab={activeTab} setActiveTab={setActiveTab} />
+      <main className="flex-grow w-full px-4 sm:px-6 lg:px-80 py-4"> {/* Padding for main content */}
+        {children}
+      </main>
       <Footer />
     </div>
   );
