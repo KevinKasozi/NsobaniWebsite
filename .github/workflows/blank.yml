@@ -20,14 +20,14 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-        working-directory: ./my-react-website
+        working-directory: ./NsobaniWebsite
 
       - name: List output files
         run: ls -l my-react-website
 
       - name: Build the App
         run: npm run build
-        working-directory: ./my-react-website
+        working-directory: ./NsobaniWebsite
       
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
