@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/NsobaniWebsite/', // Adjust this based on your deployment path
+  base: '/NsobaniWebsite/', // Adjustssss sthis based on your deployment path
   plugins: [react()],
   build: {
     outDir: 'dist', // Specify the output directory
