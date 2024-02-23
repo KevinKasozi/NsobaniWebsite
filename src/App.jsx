@@ -25,11 +25,11 @@ function App() {
     <Router>
       <Routes>
         <Route
-          path="/hospital"
+          path="/NsobaniWebsite//hospital"
           element={<HospitalPage />}
         />
         <Route
-          path="/charity"
+          path="/NsobaniWebsite//charity"
           element={<CharityPage />}
         />
         {/* Routes for Hospital Sub-Pages */}
