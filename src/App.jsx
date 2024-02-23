@@ -11,7 +11,7 @@ function App() {
 
   const handleSearch = (searchTerm) => {
     const allElements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li');
-
+  
     allElements.forEach((element) => {
       if (element.textContent.toLowerCase().includes(searchTerm.toLowerCase())) {
         element.style.display = ''; // Show element
@@ -25,11 +25,11 @@ function App() {
     <Router>
       <Routes>
         <Route
-          path="/hospital" // Corrected path
+          path="/hospital"
           element={<HospitalPage />}
         />
         <Route
-          path="/charity" // Corrected path
+          path="/charity"
           element={<CharityPage />}
         />
         {/* Routes for Hospital Sub-Pages */}
