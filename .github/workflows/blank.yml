@@ -20,10 +20,10 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-        working-directory: ./NsobaniWebsite
+        working-directory: ./NsobaniWebsite  # Correct the path to match your project structure
 
       - name: List output files
-        run: ls -l my-react-website
+        run: ls -l ./NsobaniWebsite/dist  # Correct the path to match your project structure
 
       - name: Build the App
         run: npm run build
@@ -34,5 +34,5 @@ jobs:
         
         with:
           branch: deploywebsitetogithubpagesa
-          folder: my-react-website/dist
+          folder: ./NsobaniWebsite/dist  # Correct the path to match your project structure
           token: ${{ secrets.GH_PAGE_TOKEN }}
