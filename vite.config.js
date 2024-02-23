@@ -10,7 +10,4 @@ export default defineConfig({
     assetsDir: 'assets', // Specify the assets directory
     sourcemap: true, // Enable source maps for debugging
   },
-  resolve: {
-    extensions: ['.js', '.jsx', '.json'],
-  },
 });

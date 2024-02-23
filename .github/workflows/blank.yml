@@ -33,6 +33,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.4
         
         with:
-          branch: deploywebsitetogithubpagesa
+          branch: get-website-deployed
           folder: ./NsobaniWebsite/dist  # Correct the path to match your project structure
           token: ${{ secrets.GH_PAGE_TOKEN }}
