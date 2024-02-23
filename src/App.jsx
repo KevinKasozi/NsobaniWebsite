@@ -33,9 +33,9 @@ function App() {
           element={<CharityPage />}
         />
         {/* Routes for Hospital Sub-Pages */}
-        <Route path="/hospital/about" element={<AboutUs />} />
-        <Route path="/hospital/contact" element={<Contactus />} />
-        <Route path="/hospital/ourservices" element={<OurServices />} />
+        <Route path="/NsobaniWebsite/hospital/about" element={<AboutUs />} />
+        <Route path="/NsobaniWebsite/hospital/contact" element={<Contactus />} />
+        <Route path="/NsobaniWebsite/hospital/ourservices" element={<OurServices />} />
         {/* Define other routes here */}
       </Routes>
     </Router>
