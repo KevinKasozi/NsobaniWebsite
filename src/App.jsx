@@ -1,3 +1,4 @@
+// App.jsx
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HospitalPage from './pages/Hospital/Hospitalpage.jsx';
@@ -5,6 +6,7 @@ import CharityPage from './pages/Charity/Charitypage.jsx';
 import OurServices from './pages/Hospital/OurServices.jsx';
 import Contactus from './pages/Hospital/Contactus.jsx';
 import AboutUs from './pages/Hospital/Aboutus.jsx';
+
 
 function App() {
   const [activeTab, setActiveTab] = useState('hospital'); // Default to hospital
@@ -24,6 +26,10 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route
+          path="/"
+          element={<HospitalPage />} // This will be the default route
+        />
         <Route
           path="/hospital"
           element={<HospitalPage />}
