@@ -1,11 +1,21 @@
-/** @type {import('tailwindcss').Config} */
+// tailwind.config.js
 export default {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}", // Adjust the path according to your project structure
-    "./public/index.html" // If you use any Tailwind classes directly in your HTML
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./public/index.html"
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'brand-blue': '#0077B6',
+        'brand-red': '#C53030',
+        'soft-gray': '#F7FAFC',
+      },
+      fontFamily: {
+        sans: ['Open Sans', 'sans-serif'],
+        serif: ['Merriweather', 'serif'],
+      }
+    }
   },
   plugins: [],
-}
+};

@@ -7,32 +7,20 @@ function SubNavbar() {
   const isHospitalDomain = location.pathname.startsWith('/hospital');
   const isCharityDomain = location.pathname.startsWith('/charity');
 
-  // Define links for hospital and charity domains
-  const hospitalLinks = [
+  const links = isHospitalDomain ? [
     { path: '/hospital', label: 'Home', exact: true },
     { path: '/hospital/about', label: 'About' },
     { path: '/hospital/contact', label: 'Contact' },
     { path: '/hospital/ourservices', label: 'Our Services' }
-    // Add more hospital specific links here
-  ];
-
-  const charityLinks = [
+  ] : isCharityDomain ? [
+    { path: '/charity', label: 'Home', exact: true },
     { path: '/charity/about', label: 'About' },
     { path: '/charity/events', label: 'Events' },
     { path: '/charity/donate', label: 'Donate' }
-    // Add more charity specific links here
-  ];
+  ] : [];
 
-  // Choose links based on domain
-  const links = isHospitalDomain ? hospitalLinks : isCharityDomain ? charityLinks : [];
-
-  // Base styles for all subnav links
-  const baseStyle = "inline-block rounded-full py-1 px-3 mr-3";
-
-  // Determine the active tab color
   const activeTabColor = isHospitalDomain ? 'blue' : isCharityDomain ? 'red' : 'gray';
-
-  // Styles for subnav links
+  const baseStyle = "inline-block rounded-full py-1 px-3 mr-3";
   const linkStyle = `text-${activeTabColor}-500 hover:bg-${activeTabColor}-500 hover:text-white`;
 
   return (
@@ -42,10 +30,8 @@ function SubNavbar() {
           <li key={link.path}>
             <NavLink 
               to={link.path}
-              className={({ isActive }) => 
-                `${baseStyle} ${isActive ? 'bg-' + activeTabColor + '-500 text-white' : 'text-' + activeTabColor + '-500 hover:bg-' + activeTabColor + '-500 hover:text-white'}`
-              }
-              exact={link.exact}
+              className={({ isActive }) => `${baseStyle} ${isActive ? 'bg-' + activeTabColor + '-500 text-white' : linkStyle}`}
+              end={link.exact}
             >
               {link.label}
             </NavLink>

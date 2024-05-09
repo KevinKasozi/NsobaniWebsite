@@ -26,10 +26,13 @@ const CheckoutForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Subscribe to Our Service</h2>
-      <p className="text-gray-600 mb-6">
-        Subscribe to our service and enjoy all the benefits.
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl donation-section">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Support Our Cause</h2>
+      <p className="text-gray-600 mb-2 text-center">
+        Join us in our mission to provide care and support where it's most needed. Your donations help us continue our work and impact lives positively.
+      </p>
+      <p className="text-gray-600 mb-6 text-center">
+        Every contribution matters, no matter the size. Enter your email to stay informed on how your support is making an impact and to proceed with your secure donation.
       </p>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
@@ -42,14 +45,18 @@ const CheckoutForm = () => {
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
       </div>
       <button
         className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
         onClick={handleCheckout}
       >
-        Subscribe Now
+        Donate Now
       </button>
+      <p className="text-gray-500 text-xs mt-4 text-center">
+        We respect your privacy. Your information is kept secure and will never be shared.
+      </p>
     </div>
   );
 };

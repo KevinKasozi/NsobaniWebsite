@@ -2,3 +2,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global styles using Tailwind's layer */
+@layer base {
+  h1, h2, h3 {
+    @apply font-serif text-brand-red;
+  }
+  p {
+    @apply text-base font-sans;
+  }
+  .button {
+    @apply bg-brand-red text-white py-2 px-4 rounded transition-colors duration-300;
+  }
+  .button:hover {
+    @apply bg-red-700;
+  }
+}
+
+/* Donation Section Styles */
+.donation-section {
+  @apply bg-white rounded-lg shadow-md p-6;
+}
+.donation-section h2 {
+  @apply text-2xl text-gray-800;
+}
+.donation-section p {
+  @apply text-gray-600;
+}
+.donation-section input {
+  @apply w-full p-2 border rounded border-gray-300;
+}
+.donation-section button {
+  @apply bg-brand-red text-white py-2 px-4 rounded transition-colors duration-300;
+}
+.donation-section button:hover {
+  @apply bg-red-700;
+}
+
+/* Navbar styles */
+.navbar {
+  @apply flex justify-center bg-soft-gray p-2;
+}
+.navbar a {
+  @apply no-underline text-black mx-3 py-1 px-2 rounded transition-colors duration-300;
+}
+.navbar a:hover {
+  @apply bg-gray-300;
+}
+.navbar .active {
+  @apply bg-brand-blue text-white;
+}
