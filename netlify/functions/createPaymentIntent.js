@@ -1,4 +1,3 @@
-// netlify/functions/createPaymentIntent.js
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 exports.handler = async function (event, context) {
@@ -10,8 +9,9 @@ exports.handler = async function (event, context) {
 
     // Function to calculate the order amount
     const calculateOrderAmount = (items) => {
-      // Replace this with the logic to calculate the total order amount
-      return 1400;
+      // Replace this with the logic to calculate the total order amount based on items
+      // For example:
+      return items.reduce((total, item) => total + item.amount, 0);
     };
 
     const amount = calculateOrderAmount(items);
@@ -20,10 +20,9 @@ exports.handler = async function (event, context) {
     const paymentIntent = await stripe.paymentIntents.create({
       customer: customer.id,
       amount,
-      currency: 'usd',
-      automatic_payment_methods: {
-        enabled: true,
-      },
+      currency: 'gbp', // Corrected currency code for British pounds
+      // Set up automatic confirmation of payment methods
+      confirm: true,
     });
 
     return {
