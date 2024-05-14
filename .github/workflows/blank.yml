@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - 'feature/**'
+      - 'feature/**'  # Adjust this to your actual deployment branch
 
 jobs:
   deploy:
@@ -16,23 +16,21 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '16'  # Use the node version compatible with your setup
 
       - name: Install Dependencies
         run: npm install
-        working-directory: ./NsobaniWebsite  # Correct the path to match your project structure
+        working-directory: ./  # Root of the project
 
       - name: List output files
-        run: ls -l ./NsobaniWebsite/dist  # Correct the path to match your project structure
+        run: ls -l ./frontend/dist  # Adjust the path according to where the build output is located
 
       - name: Build the App
         run: npm run build
-        working-directory: ./NsobaniWebsite
+        working-directory: ./  # Root of the project
       
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.4
-        
-        with:
-          branch: get-website-deployed
-          folder: ./NsobaniWebsite/dist  # Correct the path to match your project structure
-          token: ${{ secrets.GH_PAGE_TOKEN }}
+      - name: Deploy to Netlify
+        run: npm install -g netlify-cli && netlify deploy --prod --dir=./frontend/dist --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
