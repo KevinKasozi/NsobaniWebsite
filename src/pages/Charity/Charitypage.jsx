@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import CharityLayout from '../../components/common/CLayout.jsx';
 import HeroCarousel from '../../components/common/ChartiyHeroSection.jsx';
 import CardSection from './cards.jsx';
-import DonationForm from './DonationForm.jsx';
+import DonationForm from './donatesection.jsx';
 
 const CharityPage = () => {
   const [clientSecret, setClientSecret] = useState('');
