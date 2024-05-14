@@ -1,7 +1,7 @@
 // CharityLayout.jsx
 import React from 'react';
-import Header from '../common/Header';
-import Footer from '../common/Footer';
+import Header from './Header';
+import Footer from './Footer';
 import cLogo from '../../assets/logos/charity.png'; // Update with actual path
 
 

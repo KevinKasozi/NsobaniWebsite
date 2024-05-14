@@ -1,7 +1,7 @@
 // HospitalLayout.jsx
 import React from 'react';
-import Header from '../common/Header';
-import Footer from '../common/Footer';
+import Header from './Header';
+import Footer from './Footer';
 import hLogo from '../../assets/logos/hospital.png'; // Update with actual path
 
 const HospitalLayout = ({ children, activeTab, setActiveTab }) => {

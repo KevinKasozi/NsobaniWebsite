@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { createClient } from 'contentful';
 import HospitalLayout from '../../components/common/HLayout.jsx';
 import HeroCarousel from '../../components/carousel.jsx';
-import HospitalFeatures from '../Hospital/HospitalFeatures.jsx';
-import Stats from '../Hospital/Statistic.jsx';
+import HospitalFeatures from './HospitalFeatures.jsx';
+import Stats from './Statistic.jsx';
 
 // Use the correct environment variable for the Contentful Delivery API token
 const contentfulSpaceId = import.meta.env.VITE_REACT_APP_CONTENTFUL_SPACE_ID;
