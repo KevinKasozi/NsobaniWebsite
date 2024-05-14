@@ -1,64 +1,75 @@
+// src/pages/Charity/DonationForm.jsx
 import React, { useState } from 'react';
-import getStripe from '../../lib/getStripe';
+import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
+import 'tailwindcss/tailwind.css';
 
-const CheckoutForm = () => {
+const DonationForm = ({ clientSecret }) => {
+  const stripe = useStripe();
+  const elements = useElements();
+
   const [email, setEmail] = useState('');
+  const [message, setMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleCheckout = async () => {
-    const stripe = await getStripe();
-    try {
-      const { error } = await stripe.redirectToCheckout({
-        lineItems: [{
-          price: import.meta.env.VITE_NEXT_PUBLIC_STRIPE_PRICE_ID,
-          quantity: 1,
-        }],
-        mode: 'payment',
-        successUrl: `${window.location.origin}/success`,
-        cancelUrl: `${window.location.origin}/cancel`,
-        customerEmail: email,
-      });
-      if (error) {
-        console.warn(error.message);
-      }
-    } catch (error) {
-      console.error('Error in redirectToCheckout', error);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!stripe || !elements) {
+      return;
     }
+
+    setIsLoading(true);
+
+    const result = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: 'http://127.0.0.1:5173/charity',
+      },
+    });
+
+    if (result.error) {
+      setMessage(result.error.message);
+    } else {
+      // Handle successful payment
+    }
+
+    setIsLoading(false);
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl donation-section">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Support Our Cause</h2>
-      <p className="text-gray-600 mb-2 text-center">
-        Join us in our mission to provide care and support where it's most needed. Your donations help us continue our work and impact lives positively.
-      </p>
-      <p className="text-gray-600 mb-6 text-center">
-        Every contribution matters, no matter the size. Enter your email to stay informed on how your support is making an impact and to proceed with your secure donation.
-      </p>
+    <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-4 bg-white shadow-md rounded">
+      <h2 className="text-2xl font-bold text-red-600 mb-4">Donate</h2>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
           Email Address
         </label>
         <input
-          className="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           id="email"
           type="email"
-          placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter email address"
           required
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="payment-element">
+          Card Details
+        </label>
+        <div id="payment-element" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          <PaymentElement />
+        </div>
+      </div>
       <button
-        className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-        onClick={handleCheckout}
+        disabled={isLoading || !stripe}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-4"
       >
-        Donate Now
+        {isLoading ? <div className="spinner" id="spinner"></div> : 'Donate now'}
       </button>
-      <p className="text-gray-500 text-xs mt-4 text-center">
-        We respect your privacy. Your information is kept secure and will never be shared.
-      </p>
-    </div>
+      {message && <div className="text-red-500 text-xs mt-2">{message}</div>}
+    </form>
   );
 };
 
-export default CheckoutForm;
+export default DonationForm;

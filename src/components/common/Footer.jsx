@@ -1,54 +1,41 @@
 import React from 'react';
+import { FaInstagram, FaFacebookF, FaTwitter, FaLinkedinIn } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="font-sans bg-gray-200 py-12 px-10">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-8">
+    <footer className="bg-black text-white py-6 px-10">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
         <div>
-          <h4 className="text-black text-lg font-bold mb-5">Company</h4>
-          <ul className="space-y-4">
-            <li><a href="javascript:void(0)" className="text-black -300 hover:text-black text-sm">About Us</a></li>
-            <li><a href="javascript:void(0)" className="text-black -300 hover:text-black text-sm">Contact</a></li>
-            <li><a href="javascript:void(0)" className="text-black -300 hover:text-black text-sm">Careers</a></li>
-          </ul>
+          <h4 className="font-bold text-lg mb-2">NsobaniMemorialHospital</h4>
+          <p>Amref Health Africa is Africa's leading health NGO, working with communities in 35 countries to secure the right to health and break the cycle of poverty.</p>
+          <p className="mt-4">Registered charity no. 261488</p>
+          <p>Company no. 00982544</p>
         </div>
         <div>
-          <h4 className="text-black text-lg font-bold mb-5">Information</h4>
-          <ul className="space-y-4">
-            <li><a href="javascript:void(0)" className="text-black -300 hover:text-black text-sm">Privacy Policy</a></li>
-            <li><a href="javascript:void(0)" className="text-black -300 hover:text-black text-sm">Terms of Service</a></li>
-            <li><a href="javascript:void(0)" className="text-black -300 hover:text-black text-sm">Refund Policy</a></li>
-          </ul>
+          <h4 className="font-bold text-lg mb-2">Get in touch</h4>
+          <p>7-14 Great Dover Street, London, SE1 4YR</p>
+          <p>020 7269 5520</p>
+          <p>info@amrefuk.org</p>
         </div>
         <div>
-          <h4 className="text-black text-lg font-bold mb-5">Help</h4>
-          <ul className="space-y-4">
-            <li><a href="javascript:void(0)" className="text-black -300 hover:text-black text-sm">FAQs</a></li>
-            <li><a href="javascript:void(0)" className="text-black -300 hover:text-black text-sm">Shipping Information</a></li>
-            <li><a href="javascript:void(0)" className="text-black -300 hover:text-black text-sm">Returns & Exchanges</a></li>
-          </ul>
+          <h4 className="font-bold text-lg mb-2">Follow us on</h4>
+          <div className="flex space-x-4">
+            <a href="#" className="text-white hover:text-gray-300"><FaInstagram /></a>
+            <a href="#" className="text-white hover:text-gray-300"><FaFacebookF /></a>
+            <a href="#" className="text-white hover:text-gray-300"><FaTwitter /></a>
+            <a href="#" className="text-white hover:text-gray-300"><FaLinkedinIn /></a>
+          </div>
         </div>
-        <div className="md:col-span-2">
-          <h4 className="text-black text-lg font-bold mb-5">Newsletter</h4>
-          <p className="text-black -300 mb-4 text-sm">Subscribe to our newsletter to get updates on new products and promotions.</p>
-          <form className="mb-4">
-            <div className="flex items-center">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="bg-gray-800 px-4 py-3.5 rounded-l-lg w-full text-sm text-black -300 outline-none"
-              />
-              <button
-                type="button"
-                className="bg-gray-700 text-sm text-black -300 tracking-wide px-4 py-3.5 rounded-r-lg"
-              >
-                Subscribe
-              </button>
-            </div>
-          </form>
+        <div>
+          <h4 className="font-bold text-lg mb-2">Donate Now</h4>
+          <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            Donate Now
+          </button>
         </div>
       </div>
-      <p className='text-black -300 text-right text-sm mt-8'>© {new Date().getFullYear()}<a href='https://readymadeui.com/' target='_blank' className="hover:underline mx-1">ReadymadeUI</a>All Rights Reserved.</p>
+      <p className="text-center text-gray-400 text-xs mt-8">
+        © {new Date().getFullYear()} NsobaniMemorialHospital. All rights reserved.
+      </p>
     </footer>
   );
 };

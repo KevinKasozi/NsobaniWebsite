@@ -1,19 +1,26 @@
-// App.jsx
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HospitalPage from './pages/Hospital/Hospitalpage.jsx';
-import CharityPage from './pages/Charity/Charitypage.jsx';
-import OurServices from './pages/Hospital/OurServices.jsx';
-import Contactus from './pages/Hospital/Contactus.jsx';
-import AboutUs from './pages/Hospital/Aboutus.jsx';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
+// Page Components
+import HospitalPage from "./pages/Hospital/Hospitalpage";
+import CharityPage from "./pages/Charity/Charitypage";
+import OurServices from "./pages/Hospital/OurServices";
+import ContactUs from "./pages/Hospital/Contactus";
+import AboutUs from "./pages/Hospital/Aboutus";
+import EventsPage from "./pages/Charity/events";
+import NotFoundPage from "./pages/notfound";
+
+// Load Stripe with your public key (ensure this key is correctly configured in your environment)
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 function App() {
   const [activeTab, setActiveTab] = useState('hospital'); // Default to hospital
 
   const handleSearch = (searchTerm) => {
     const allElements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li');
-  
+
     allElements.forEach((element) => {
       if (element.textContent.toLowerCase().includes(searchTerm.toLowerCase())) {
         element.style.display = ''; // Show element
@@ -28,21 +35,63 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<HospitalPage />} // This will be the default route
+          element={
+            <Elements stripe={stripePromise}>
+              <HospitalPage />
+            </Elements>
+          }
         />
         <Route
           path="/hospital"
-          element={<HospitalPage />}
+          element={
+            <Elements stripe={stripePromise}>
+              <HospitalPage />
+            </Elements>
+          }
         />
         <Route
           path="/charity"
-          element={<CharityPage />}
+          element={
+            <Elements stripe={stripePromise}>
+              <CharityPage />
+            </Elements>
+          }
         />
         {/* Routes for Hospital Sub-Pages */}
-        <Route path="/hospital/about" element={<AboutUs />} />
-        <Route path="/hospital/contact" element={<Contactus />} />
-        <Route path="/hospital/ourservices" element={<OurServices />} />
+        <Route
+          path="/hospital/about"
+          element={
+            <Elements stripe={stripePromise}>
+              <AboutUs />
+            </Elements>
+          }
+        />
+        <Route
+          path="/hospital/contact"
+          element={
+            <Elements stripe={stripePromise}>
+              <ContactUs />
+            </Elements>
+          }
+        />
+        <Route
+          path="/hospital/ourservices"
+          element={
+            <Elements stripe={stripePromise}>
+              <OurServices />
+            </Elements>
+          }
+        />
         {/* Define other routes here */}
+        <Route
+          path="/charity/events"
+          element={
+            <Elements stripe={stripePromise}>
+              <EventsPage />
+            </Elements>
+          }
+        />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );
