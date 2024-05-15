@@ -1,15 +1,18 @@
-// Header.jsx
+// src/components/common/Header.jsx
 import React from 'react';
-import Navbar from './navbar';
-import SubNavbar from './subnavbar';
+import { Link, useLocation } from 'react-router-dom';
 
-const Header = ({ activeTab, setActiveTab, logo }) => {
+const Header = ({ logo, activeTab, setActiveTab }) => {
+  const location = useLocation();
+
   return (
-    <header className="w-full">
-      <div className="flex-grow w-full px-4 sm:px-6 lg:px-80 py-4"> {/* Same padding as main content */}
-        {logo && <img src={logo} alt="Logo" className="logo-class" />}
-        <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-        <SubNavbar />
+    <header className="bg-white shadow">
+      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="flex items-center">
+          <img src={logo} alt="Logo" className="h-10 w-auto" />
+          <h1 className="ml-4 text-xl font-bold text-gray-800">Nsobani Memorial Hospital</h1>
+        </div>
+
       </div>
     </header>
   );

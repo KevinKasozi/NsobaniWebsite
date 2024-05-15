@@ -1,6 +1,7 @@
+// src/components/common/CharityHeroSection.jsx
 import React from 'react';
 import charityImage from '../../assets/img2/charity.jpg'; // Ensure the image path reflects impactful, charity-focused imagery
-import DonateSection from '../../pages/Charity/DonationForm.jsx';
+import DonationForm from '../../pages/Charity/DonationForm.jsx';
 
 const CharityHeroSection = () => {
   return (
@@ -26,8 +27,6 @@ const CharityHeroSection = () => {
           <img src={charityImage} alt="Impactful Care" className="max-w-full h-auto rounded-lg shadow-lg" />
         </div>
       </div>
-      {/* Positioned DonateSection below the hero section */}
-      <DonateSection />
     </div>
   );
 };

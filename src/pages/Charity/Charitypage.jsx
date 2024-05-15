@@ -1,44 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import CharityLayout from '../../components/common/CLayout.jsx';
-import HeroCarousel from '../../components/common/ChartiyHeroSection.jsx';
-import CardSection from './cards.jsx';
-import DonationForm from './DonationForm.jsx';
+// src/pages/Charity/CharityPage.jsx
+import React, { useEffect, useState } from 'react';
+import CharityLayout from '../../components/common/CLayout';
+import HeroCarousel from '../../components/common/ChartiyHeroSection';
+import CardSection from './cards';
+import CheckoutForm from './DonationForm';
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
-const CharityPage = () => {
+const stripePromise = loadStripe('pk_test_51Ob3ClGV56c8mWXUMXXGePPWqbq64ngAtYopjlpVxhtF4hAL4pmox8uUeHzcAPmCkb5gxSofF2cISw74nrVFWmlm00xKDzM9VF');
+
+const CharityPage = ({ activeTab, setActiveTab }) => {
   const [clientSecret, setClientSecret] = useState('');
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch('/.netlify/functions/createPaymentIntent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: [{ id: 'item1', amount: 1000 }] })
+      body: JSON.stringify({ items: [{ id: 'item1', amount: 1000 }] }),
     })
-      .then(res => {
-        console.log('Response status:', res.status); // Log the response status
-        return res.json();
-      })
-      .then(data => {
-        console.log('Response data:', data); // Log the response data
-        if (data.clientSecret) {
-          setClientSecret(data.clientSecret);
-        } else {
-          setError('Error fetching client secret: ' + (data.error || 'Unknown error'));
-          console.error('Error fetching client secret:', data.error);
-        }
-      })
-      .catch(err => {
-        setError('Error fetching client secret: ' + err.message);
-        console.error('Error fetching client secret:', err);
-      });
+      .then((res) => res.json())
+      .then((data) => setClientSecret(data.clientSecret));
   }, []);
 
+  const appearance = {
+    theme: 'stripe',
+    variables: {
+      colorPrimary: '#e10505',
+    },
+  };
+
+  const options = {
+    clientSecret,
+    appearance,
+  };
+
   return (
-    <CharityLayout>
+    <CharityLayout activeTab={activeTab} setActiveTab={setActiveTab}>
       <HeroCarousel />
       <CardSection />
       <div className="p-6">
-        {error ? <p>Error: {error}</p> : clientSecret ? <DonationForm clientSecret={clientSecret} /> : <p>Loading...</p>}
+        {clientSecret && (
+          <Elements options={options} stripe={stripePromise}>
+            <CheckoutForm />
+          </Elements>
+        )}
       </div>
     </CharityLayout>
   );

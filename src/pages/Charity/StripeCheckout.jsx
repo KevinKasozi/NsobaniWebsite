@@ -1,36 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import CheckoutForm from './DonationForm'; // Adjust the path as necessary
+import DonationForm from './DonationForm'; // Ensure the path is correct
 
-// Load Stripe using the public key from environment variables defined in Vite's .env file
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const StripeCheckout = () => {
   const [clientSecret, setClientSecret] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetch('/.netlify/functions/createPaymentIntent')
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok ' + res.statusText);
-        }
-        return res.json();
-      })
-      .then(data => {
-        if (data.clientSecret) {
-          setClientSecret(data.clientSecret);
-        } else {
-          console.error('Error fetching client secret:', data.error);
-        }
-      })
-      .catch(err => console.error('Error fetching client secret:', err));
-  }, []);
+// In CharityPage.jsx
+
+useEffect(() => {
+  const fetchPaymentIntent = async () => {
+    try {
+      const response = await fetch('/.netlify/functions/createPaymentIntent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: [{ id: 'item1', amount: 1000 }] })
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+
+      const data = await response.json();
+      console.log('Fetched client secret:', data.clientSecret);
+
+      if (data.clientSecret) {
+        setClientSecret(data.clientSecret);
+      } else {
+        setError('Client secret not found in response');
+      }
+    } catch (err) {
+      setError('Error fetching client secret: ' + err.message);
+      console.error('Error fetching client secret:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchPaymentIntent();
+}, []);
+
+  
 
   return (
-    <Elements stripe={stripePromise}>
-      {clientSecret ? <CheckoutForm clientSecret={clientSecret} /> : <p>Loading...</p>}
-    </Elements>
+    <div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>Error: {error}</p>
+      ) : (
+        <Elements stripe={stripePromise} options={{ clientSecret }}>
+          <DonationForm clientSecret={clientSecret} />
+        </Elements>
+      )}
+    </div>
   );
 };
 
