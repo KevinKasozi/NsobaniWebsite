@@ -1,9 +1,12 @@
-name: Deploy
+name: CI Pipeline
 
 on:
   push:
     branches:
       - 'main'  # or the branch you want to deploy
+  pull_request:
+    branches:
+      - 'main'
 
 jobs:
   deploy:
@@ -11,24 +14,32 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.13.1'  # Use the node version compatible with your setup
+          node-version: '20.13.1'
+          cache: 'npm'
 
       - name: Install Dependencies
         run: npm install
-        working-directory: ./  # Root of the project
 
       - name: Install Deno
-        run: curl -fsSL https://deno.land/install.sh | sh
+        run: |
+          curl -fsSL https://deno.land/install.sh | sh
+          echo 'export DENO_INSTALL="$HOME/.deno"' >> $GITHUB_ENV
+          echo 'export PATH="$DENO_INSTALL/bin:$PATH"' >> $GITHUB_ENV
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Run Linter
+        run: npm run lint
 
       - name: Build the App
         run: npm run build
-        working-directory: ./  # Root of the project
-      
+
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
 
@@ -37,3 +48,45 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.13.1'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          languages: javascript
+
+      - name: Run Snyk Security Scan
+        uses: snyk/actions/node@v2
+        with:
+          args: test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+  update-dependencies:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Dependabot
+        uses: dependabot/dependabot-core@v1
+        with:
+          package-ecosystem: "npm"
+          directory: "/"
+          schedule:
+            interval: "daily"

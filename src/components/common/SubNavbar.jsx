@@ -1,9 +1,7 @@
-// src/components/common/SubNavbar.jsx
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import SearchBar from './searchbar';
 
-function SubNavbar() {
+const SubNavbar = ({ theme }) => {
   const location = useLocation();
   const isHospitalDomain = location.pathname.startsWith('/hospital');
   const isCharityDomain = location.pathname.startsWith('/charity');
@@ -21,31 +19,29 @@ function SubNavbar() {
   ] : [];
 
   const activeTabColor = isHospitalDomain ? 'blue' : isCharityDomain ? 'red' : 'gray';
-  const baseStyle = "inline-block rounded-lg py-2 px-4 transition-colors duration-300";
-  const textClass = isHospitalDomain ? 'text-blue-600' : isCharityDomain ? 'text-red-600' : 'text-gray-600';
-  const hoverBgClass = isHospitalDomain ? 'hover:bg-blue-600' : isCharityDomain ? 'hover:bg-red-600' : 'hover:bg-gray-600';
+  const baseStyle = "inline-block rounded-full py-1 px-3 mr-3";
+  const bgClass = isHospitalDomain ? 'bg-blue-100' : isCharityDomain ? 'bg-red-100' : 'bg-gray-100';
+  const textClass = isHospitalDomain ? 'text-blue-500' : isCharityDomain ? 'text-red-500' : 'text-gray-500';
+  const hoverBgClass = isHospitalDomain ? 'hover:bg-blue-500' : isCharityDomain ? 'hover:bg-red-500' : 'hover:bg-gray-500';
   const hoverTextClass = 'hover:text-white';
 
   return (
-    <div className={`p-4 ${isHospitalDomain ? 'bg-blue-100' : isCharityDomain ? 'bg-red-100' : 'bg-gray-100'} shadow-md`}>
-      <div className="container mx-auto flex justify-between items-center">
-        <ul className="flex space-x-4">
-          {links.map(link => (
-            <li key={link.path}>
-              <NavLink
-                to={link.path}
-                className={({ isActive }) => `${baseStyle} ${isActive ? `bg-${activeTabColor}-600 text-white` : `${textClass} ${hoverBgClass} ${hoverTextClass}`} transition-colors duration-300`}
-                end={link.exact}
-              >
-                {link.label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-        <SearchBar />
-      </div>
+    <div className={`p-2 ${bgClass}`}>
+      <ul className="flex">
+        {links.map(link => (
+          <li key={link.path}>
+            <NavLink 
+              to={link.path}
+              className={({ isActive }) => `${baseStyle} ${isActive ? `bg-${activeTabColor}-500 text-white` : `${textClass} ${hoverBgClass} ${hoverTextClass}`}`}
+              end={link.exact}
+            >
+              {link.label}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
     </div>
   );
-}
+};
 
 export default SubNavbar;

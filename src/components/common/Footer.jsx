@@ -1,9 +1,12 @@
 import React from 'react';
 import { FaInstagram, FaFacebookF, FaTwitter, FaLinkedinIn } from 'react-icons/fa';
 
-const Footer = () => {
+const Footer = ({ theme }) => {
+  const bgColor = theme === 'charity' ? 'bg-red-600' : 'bg-blue-600';
+  const buttonBgColor = theme === 'charity' ? 'bg-red-700 hover:bg-red-800' : 'bg-blue-700 hover:bg-blue-800';
+
   return (
-    <footer className="bg-black text-white py-6 px-10">
+    <footer className={`${bgColor} text-white py-6 px-10`}>
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
         <div>
           <h4 className="font-bold text-lg mb-2">NsobaniMemorialHospital</h4>
@@ -28,7 +31,7 @@ const Footer = () => {
         </div>
         <div>
           <h4 className="font-bold text-lg mb-2">Donate Now</h4>
-          <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          <button className={`${buttonBgColor} text-white font-bold py-2 px-4 rounded`}>
             Donate Now
           </button>
         </div>

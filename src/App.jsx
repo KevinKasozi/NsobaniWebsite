@@ -1,17 +1,15 @@
-// src/App.jsx
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
-import HospitalPage from "./pages/Hospital/Hospitalpage";
-import CharityPage from "./pages/Charity/Charitypage";
+import HospitalPage from "./pages/Hospital/HospitalPage";
+import CharityPage from "./pages/Charity/CharityPage";
 import OurServices from "./pages/Hospital/OurServices";
-import ContactUs from "./pages/Hospital/Contactus";
-import AboutUs from "./pages/Hospital/Aboutus";
-import EventsPage from "./pages/Charity/events";
-import NotFoundPage from "./pages/notfound";
-import SuccessPage from "./components/common/Success"; // Make sure to import SuccessPage
+import ContactUs from "./pages/Hospital/ContactUs";
+import AboutUs from "./pages/Hospital/AboutUs";
+import EventsPage from "./pages/Charity/Events";
+import NotFoundPage from "./pages/NotFound";
 import ErrorBoundary from './components/Errorhandling';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -78,10 +76,6 @@ function App() {
                 <EventsPage activeTab={activeTab} setActiveTab={setActiveTab} />
               </Elements>
             }
-          />
-          <Route
-            path="/success"
-            element={<SuccessPage />} // Add this route to handle success redirects
           />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

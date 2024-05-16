@@ -1,4 +1,3 @@
-// src/pages/Charity/DonationForm.jsx
 import React, { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
@@ -48,7 +47,7 @@ const CheckoutForm = () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: 'http://localhost:8888/success', // Make sure this URL is correct
+        return_url: 'http://localhost:8888/success',
         receipt_email: email,
       },
     });
@@ -67,27 +66,46 @@ const CheckoutForm = () => {
   };
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit} className="bg-white p-6 shadow rounded-lg max-w-md mx-auto">
-      <div className="form-group">
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter email address"
-          required
-          className="mb-4 w-full px-3 py-2 border border-gray-300 rounded-md"
-        />
+    <div className="bg-white p-8 shadow-lg rounded-lg max-w-lg mx-auto mt-12">
+      <h2 className="text-3xl font-semibold mb-6 text-center">Support Our Cause</h2>
+      <p className="text-gray-600 mb-6 text-center">
+        Your generous donation helps us provide life-saving treatments and continue our mission. 
+        All payments are securely processed through Stripe.
+      </p>
+      <div className="flex justify-center mb-6">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Stripe_Logo%2C_revised_2016.png" alt="Stripe" className="h-8" />
       </div>
-      <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mt-4">
-        <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : 'Pay now'}
-        </span>
-      </button>
-      {message && <div id="payment-message" className="text-red-500 text-xs mt-2">{message}</div>}
-    </form>
+      <form id="payment-form" onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-gray-700 mb-2">Email</label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter email address"
+            required
+            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+          />
+        </div>
+        <PaymentElement id="payment-element" options={paymentElementOptions} />
+        <button disabled={isLoading || !stripe || !elements} id="submit" className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full mt-4">
+          <span id="button-text">
+            {isLoading ? <div className="spinner" id="spinner"></div> : 'Pay now'}
+          </span>
+        </button>
+        {message && <div id="payment-message" className="text-red-500 text-xs mt-2">{message}</div>}
+      </form>
+      <div className="text-center mt-6">
+        <p className="text-sm text-gray-600">
+          We use Stripe for secure payment processing. Your information is encrypted and securely processed.
+        </p>
+        <div className="flex justify-center mt-4">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/256-bit_Encryption.svg/1200px-256-bit_Encryption.svg.png" alt="Encryption" className="h-8" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Pci-dss.svg/1200px-Pci-dss.svg.png" alt="PCI DSS" className="h-8 ml-4" />
+        </div>
+      </div>
+    </div>
   );
 };
 

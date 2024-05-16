@@ -1,9 +1,11 @@
-// src/pages/Charity/CharityPage.jsx
 import React, { useEffect, useState } from 'react';
 import CharityLayout from '../../components/common/CLayout';
 import HeroCarousel from '../../components/common/ChartiyHeroSection';
 import CardSection from './cards';
-import CheckoutForm from './DonationForm';
+import DonationForm from './Donate';
+import OurImpact from './OurImpact';
+import GetInvolved from './GetInvolved';
+import TestimonialsSection from './Testimonials';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -37,11 +39,14 @@ const CharityPage = ({ activeTab, setActiveTab }) => {
   return (
     <CharityLayout activeTab={activeTab} setActiveTab={setActiveTab}>
       <HeroCarousel />
-      <CardSection />
-      <div className="p-6">
+      <CardSection theme="charity" />
+      <OurImpact theme="charity" />
+      <GetInvolved theme="charity" />
+      <TestimonialsSection theme="charity" />
+      <div className="p-6 max-w-2xl mx-auto">
         {clientSecret && (
           <Elements options={options} stripe={stripePromise}>
-            <CheckoutForm />
+            <DonationForm />
           </Elements>
         )}
       </div>

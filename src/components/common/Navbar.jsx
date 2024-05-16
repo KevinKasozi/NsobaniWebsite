@@ -1,10 +1,8 @@
-// src/components/common/Navbar.jsx
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-function Navbar() {
+const Navbar = () => {
   const location = useLocation();
-
   const isHospitalPath = location.pathname.startsWith('/hospital');
   const isCharityPath = location.pathname.startsWith('/charity');
 
@@ -47,6 +45,6 @@ function Navbar() {
       </div>
     </nav>
   );
-}
+};
 
 export default Navbar;
