@@ -1,8 +1,10 @@
 module.exports = {
   root: true,
   env: { browser: true, es2020: true },
+  plugins: ['security'],
   extends: [
     'eslint:recommended',
+    'plugin:security/recommended',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
