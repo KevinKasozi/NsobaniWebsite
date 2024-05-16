@@ -3,9 +3,9 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import 'tailwindcss/tailwind.css';
 
-const stripePromise = loadStripe('pk_test_51Ob3ClGV56c8mWXUMXXGePPWqbq64ngAtYopjlpVxhtF4hAL4pmox8uUeHzcAPmCkb5gxSofF2cISw74nrVFWmlm00xKDzM9VF');
+const stripePromise = loadStripe(process.env.VITE_STRIPE_SECRET_KEY);
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ handlePaymentFailure }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [email, setEmail] = useState('');
@@ -52,10 +52,15 @@ const CheckoutForm = () => {
       },
     });
 
-    if (error.type === 'card_error' || error.type === 'validation_error') {
-      setMessage(error.message);
+    if (error) {
+      if (error.type === 'card_error' || error.type === 'validation_error') {
+        setMessage(error.message);
+      } else {
+        setMessage('An unexpected error occurred.');
+      }
+      handlePaymentFailure(error.message);
     } else {
-      setMessage('An unexpected error occurred.');
+      setMessage(null);
     }
 
     setIsLoading(false);
@@ -69,7 +74,7 @@ const CheckoutForm = () => {
     <div className="bg-white p-8 shadow-lg rounded-lg max-w-lg mx-auto mt-12">
       <h2 className="text-3xl font-semibold mb-6 text-center">Support Our Cause</h2>
       <p className="text-gray-600 mb-6 text-center">
-        Your generous donation helps us provide life-saving treatments and continue our mission. 
+        Your generous donation helps us provide life-saving treatments and continue our mission.
         All payments are securely processed through Stripe.
       </p>
       <div className="flex justify-center mb-6">
@@ -138,7 +143,7 @@ const DonationForm = () => {
     <div className="App">
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
+          <CheckoutForm handlePaymentFailure={(message) => console.log(message)} />
         </Elements>
       )}
     </div>

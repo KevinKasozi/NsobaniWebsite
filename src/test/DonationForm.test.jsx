@@ -1,63 +1,63 @@
-// src/test/DonationForm.test.jsx
+// DonationForm.test.jsx
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
-import DonationForm from '../pages/Charity/Donate'; // Adjust the path based on your project structure
-import 'tailwindcss/tailwind.css';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
+import DonationForm from '../pages/Charity/Donate';
+import { handler } from '../../netlify/functions/createPaymentIntent';
 
-// Mock the Stripe.js module
-jest.mock('@stripe/stripe-js', () => ({
-  loadStripe: jest.fn(() => ({
-    elements: jest.fn(),
-    createPaymentMethod: jest.fn(),
-    confirmCardPayment: jest.fn(),
-  })),
-}));
+jest.mock('../../netlify/functions/createPaymentIntent');
 
-// Mock the Stripe React module
-jest.mock('@stripe/react-stripe-js', () => ({
-  Elements: jest.fn(({ children }) => <div>{children}</div>),
-  PaymentElement: jest.fn(() => <div data-testid="payment-element"></div>),
-  useStripe: jest.fn(() => ({
-    confirmPayment: jest.fn(),
-    retrievePaymentIntent: jest.fn(),
-  })),
-  useElements: jest.fn(),
-}));
-
-test('renders the DonationForm and processes a fake payment', async () => {
-  // Mock the fetch request for the payment intent
+beforeAll(() => {
   global.fetch = jest.fn(() =>
     Promise.resolve({
       json: () => Promise.resolve({ clientSecret: 'fake-client-secret' }),
     })
   );
+});
 
-  // Render the DonationForm component
-  render(<DonationForm />);
-
-  // Debugging: Check the HTML output
-  console.log(screen.debug());
-
-  // Check if the payment form is displayed
-  expect(screen.getByLabelText(/Email/i)).toBeInTheDocument();
-  expect(screen.getByTestId('payment-element')).toBeInTheDocument();
-
-  // Simulate filling out the form
-  fireEvent.change(screen.getByLabelText(/Email/i), {
-    target: { value: 'test@example.com' },
+describe('DonationForm', () => {
+  beforeEach(() => {
+    handler.mockResolvedValue({ clientSecret: 'fake-client-secret' });
   });
 
-  // Simulate form submission
-  fireEvent.submit(screen.getByRole('button', { name: /pay now/i }));
-
-  // Assert that the confirmPayment method is called
-  const stripe = loadStripe();
-  await waitFor(() => {
-    expect(stripe.confirmPayment).toHaveBeenCalled();
+  it('renders without crashing', async () => {
+    await act(async () => {
+      render(<DonationForm />);
+    });
   });
 
-  // Cleanup mocks
-  global.fetch.mockRestore();
+  it('displays email field', async () => {
+    await act(async () => {
+      render(<DonationForm />);
+    });
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+  });
+
+  it('calls payment handler when submitted', async () => {
+    await act(async () => {
+      render(<DonationForm />);
+    });
+
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
+    fireEvent.click(screen.getByText(/pay now/i));
+
+    await waitFor(() => {
+      expect(handler).toHaveBeenCalled();
+    });
+  });
+
+  it('displays error if payment fails', async () => {
+    handler.mockRejectedValue(new Error('Payment failed'));
+
+    await act(async () => {
+      render(<DonationForm />);
+    });
+
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
+    fireEvent.click(screen.getByText(/pay now/i));
+
+    await waitFor(() => {
+      expect(screen.getByText(/payment failed/i)).toBeInTheDocument();
+    });
+  });
 });
