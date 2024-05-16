@@ -4,7 +4,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import DonationForm from '../pages/Charity/Donate'; // Adjust the path based on your project structure
-import 'tailwindcss/tailwind.css'; // This import should now be correctly handled
+import 'tailwindcss/tailwind.css';
 
 // Mock the Stripe.js module
 jest.mock('@stripe/stripe-js', () => ({
@@ -36,6 +36,9 @@ test('renders the DonationForm and processes a fake payment', async () => {
 
   // Render the DonationForm component
   render(<DonationForm />);
+
+  // Debugging: Check the HTML output
+  console.log(screen.debug());
 
   // Check if the payment form is displayed
   expect(screen.getByLabelText(/Email/i)).toBeInTheDocument();
