@@ -69,8 +69,13 @@ jobs:
         with:
           languages: javascript
 
-      - name: Run Snyk Security Scan
-        uses: snyk/actions@v1
+      - name: Set up Snyk
+        uses: snyk/actions/setup@v1
+        with:
+          version: 'v1.916.0'  # Use the latest version or specify the version needed
+
+      - name: Authenticate Snyk and Test
+        uses: snyk/actions/snyk@master
         with:
           args: test
         env:
