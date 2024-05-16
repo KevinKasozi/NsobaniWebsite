@@ -32,22 +32,45 @@ jobs:
           echo 'export PATH="$DENO_INSTALL/bin:$PATH"' >> $GITHUB_ENV
 
       - name: Run Tests
+        env:
+          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+          VITE_NEXT_PUBLIC_STRIPE_PRICE_ID: ${{ secrets.VITE_NEXT_PUBLIC_STRIPE_PRICE_ID }}
+          VITE_REACT_APP_CONTENTFUL_SPACE_ID: ${{ secrets.VITE_REACT_APP_CONTENTFUL_SPACE_ID }}
+          VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN }}
+          VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN }}
+          VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
         run: npm test
 
       - name: Run Linter
         run: npm run lint
 
       - name: Build the App
+        env:
+          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+          VITE_NEXT_PUBLIC_STRIPE_PRICE_ID: ${{ secrets.VITE_NEXT_PUBLIC_STRIPE_PRICE_ID }}
+          VITE_REACT_APP_CONTENTFUL_SPACE_ID: ${{ secrets.VITE_REACT_APP_CONTENTFUL_SPACE_ID }}
+          VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN }}
+          VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN }}
+          VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
         run: npm run build
 
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
 
       - name: Deploy to Netlify
-        run: netlify deploy --prod --dir=./dist --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+          VITE_NEXT_PUBLIC_STRIPE_PRICE_ID: ${{ secrets.VITE_NEXT_PUBLIC_STRIPE_PRICE_ID }}
+          VITE_REACT_APP_CONTENTFUL_SPACE_ID: ${{ secrets.VITE_REACT_APP_CONTENTFUL_SPACE_ID }}
+          VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN }}
+          VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN }}
+          VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+        run: netlify deploy --prod --dir=./dist --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
 
   security:
     runs-on: ubuntu-latest
@@ -64,10 +87,13 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
         with:
           languages: javascript
+
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
 
       - name: Run npm audit
         run: npm audit --audit-level=high
