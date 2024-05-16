@@ -1,9 +1,10 @@
-// src/DonationForm.test.js
+// src/test/DonationForm.test.jsx
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import DonationForm from '../pages/Charity/Donate';
+import DonationForm from '../pages/Charity/Donate'; // Adjust the path based on your project structure
+import 'tailwindcss/tailwind.css'; // This import should now be correctly handled
 
 // Mock the Stripe.js module
 jest.mock('@stripe/stripe-js', () => ({
