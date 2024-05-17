@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import CharityLayout from '../../components/common/CLayout';
 import HeroCarousel from '../../components/common/ChartiyHeroSection';
 import CardSection from './cards';
-import DonationForm from './Donate';
+import { DonationForm } from './Donate';  // Correct import statement
 import OurImpact from './OurImpact';
 import GetInvolved from './GetInvolved';
 import TestimonialsSection from './Testimonials';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-const stripePromise = loadStripe('pk_test_51Ob3ClGV56c8mWXUMXXGePPWqbq64ngAtYopjlpVxhtF4hAL4pmox8uUeHzcAPmCkb5gxSofF2cISw74nrVFWmlm00xKDzM9VF');
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const CharityPage = ({ activeTab, setActiveTab }) => {
   const [clientSecret, setClientSecret] = useState('');
