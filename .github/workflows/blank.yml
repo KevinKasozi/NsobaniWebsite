@@ -22,8 +22,11 @@ jobs:
           node-version: '20.13.1'
           cache: 'npm'
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Clean Install Dependencies
+        run: |
+          rm -rf node_modules
+          rm -f package-lock.json
+          npm install
 
       - name: Install Deno
         run: |
@@ -86,8 +89,11 @@ jobs:
         with:
           node-version: '20.13.1'
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Clean Install Dependencies
+        run: |
+          rm -rf node_modules
+          rm -f package-lock.json
+          npm install
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
