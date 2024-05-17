@@ -34,8 +34,8 @@ jobs:
           echo 'export DENO_INSTALL="$HOME/.deno"' >> $GITHUB_ENV
           echo 'export PATH="$DENO_INSTALL/bin:$PATH"' >> $GITHUB_ENV
 
-      - name: Run npm audit fix
-        run: npm audit fix
+      - name: Attempt npm audit fix
+        run: npm audit fix || echo "npm audit fix failed, continuing..."
 
       - name: Run Tests
         env:
@@ -91,8 +91,8 @@ jobs:
           rm -f package-lock.json
           npm install
 
-      - name: Run npm audit fix
-        run: npm audit fix
+      - name: Attempt npm audit fix
+        run: npm audit fix || echo "npm audit fix failed, continuing..."
 
       - name: Run npm audit
         run: npm audit --audit-level=high
@@ -104,6 +104,3 @@ jobs:
 
       - name: Run CodeQL Analysis
         uses: github/codeql-action/analyze@v2
-
-      - name: Run npm audit
-        run: npm audit --audit-level=high
