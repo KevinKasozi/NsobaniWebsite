@@ -1,57 +1,78 @@
-import React, { useEffect, useState } from 'react';
-import CharityLayout from '../../components/common/CLayout';
-import HeroCarousel from '../../components/common/ChartiyHeroSection';
-import CardSection from './cards';
-import { DonationForm } from './Donate';  // Correct import statement
-import OurImpact from './OurImpact';
-import GetInvolved from './GetInvolved';
-import TestimonialsSection from './Testimonials';
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import React, { useState, useEffect } from 'react';
+import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import 'tailwindcss/tailwind.css';
 
-const stripePromise = loadStripe('pk_test_51Ob3ClGV56c8mWXUMXXGePPWqbq64ngAtYopjlpVxhtF4hAL4pmox8uUeHzcAPmCkb5gxSofF2cISw74nrVFWmlm00xKDzM9VF');
+// Initialize Stripe
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
-const CharityPage = ({ activeTab, setActiveTab }) => {
-  const [clientSecret, setClientSecret] = useState('');
+const DonationForm = () => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('/.netlify/functions/createPaymentIntent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: [{ id: 'item1', amount: 1000 }] }),
-    })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret));
-  }, []);
+    if (!stripe || !elements) {
+      return;
+    }
+    setIsLoading(false);
+  }, [stripe, elements]);
 
-  const appearance = {
-    theme: 'stripe',
-    variables: {
-      colorPrimary: '#e10505',
-    },
-  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
 
-  const options = {
-    clientSecret,
-    appearance,
+    const { error } = await stripe.confirmPayment({
+      // Assuming payment is configured correctly
+    });
+
+    if (error) {
+      console.error(error);
+      setError('Payment failed');
+      setIsLoading(false);
+    } else {
+      // Handle successful payment
+      setIsLoading(false);
+    }
   };
 
   return (
-    <CharityLayout activeTab={activeTab} setActiveTab={setActiveTab}>
-      <HeroCarousel />
-      <CardSection theme="charity" />
-      <OurImpact theme="charity" />
-      <GetInvolved theme="charity" />
-      <TestimonialsSection theme="charity" />
-      <div className="p-6 max-w-2xl mx-auto">
-        {clientSecret && (
-          <Elements options={options} stripe={stripePromise}>
-            <DonationForm />
-          </Elements>
-        )}
-      </div>
-    </CharityLayout>
+    <form onSubmit={handleSubmit}>
+      {isLoading && <div>Loading payment details...</div>}
+      {!isLoading && (
+        <>
+          <div>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Email"
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <div>
+            <PaymentElement />
+          </div>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full"
+          >
+            {isLoading ? 'Processing...' : 'Pay now'}
+          </button>
+          {error && <div>{error}</div>}
+        </>
+      )}
+    </form>
   );
 };
 
-export default CharityPage;
+const WrappedDonationForm = () => (
+  <Elements stripe={stripePromise}>
+    <DonationForm />
+  </Elements>
+);
+
+export { WrappedDonationForm as DonationForm };
