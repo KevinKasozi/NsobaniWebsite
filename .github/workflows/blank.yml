@@ -3,10 +3,10 @@ name: CI Pipeline
 on:
   push:
     branches:
-      - 'main'  # Trigger on pushes to the 'main' branch
+      - 'main'
   pull_request:
     branches:
-      - 'main'  # Trigger on pull requests to the 'main' branch
+      - 'main'
 
 jobs:
   deploy:
@@ -34,6 +34,9 @@ jobs:
           echo 'export DENO_INSTALL="$HOME/.deno"' >> $GITHUB_ENV
           echo 'export PATH="$DENO_INSTALL/bin:$PATH"' >> $GITHUB_ENV
 
+      - name: Run npm audit fix
+        run: npm audit fix
+
       - name: Run Tests
         env:
           VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
@@ -60,7 +63,6 @@ jobs:
           VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
         run: npm run build
-        continue-on-error: true
 
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
@@ -69,13 +71,6 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
-          VITE_NEXT_PUBLIC_STRIPE_PRICE_ID: ${{ secrets.VITE_NEXT_PUBLIC_STRIPE_PRICE_ID }}
-          VITE_REACT_APP_CONTENTFUL_SPACE_ID: ${{ secrets.VITE_REACT_APP_CONTENTFUL_SPACE_ID }}
-          VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN }}
-          VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN }}
-          VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN }}
-          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
         run: netlify deploy --prod --dir=./dist --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
 
   security:
@@ -95,6 +90,12 @@ jobs:
           rm -rf node_modules
           rm -f package-lock.json
           npm install
+
+      - name: Run npm audit fix
+        run: npm audit fix
+
+      - name: Run npm audit
+        run: npm audit --audit-level=high
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
