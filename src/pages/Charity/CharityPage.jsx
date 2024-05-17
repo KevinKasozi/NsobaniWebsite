@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CharityLayout from '../../components/common/CLayout';
 import HeroCarousel from '../../components/common/ChartiyHeroSection';
 import CardSection from './cards';
-import { DonationForm } from './Donate';  // Correct import statement
+import { DonationForm } from './Donate';
 import OurImpact from './OurImpact';
 import GetInvolved from './GetInvolved';
 import TestimonialsSection from './Testimonials';

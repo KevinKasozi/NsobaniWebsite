@@ -3,10 +3,10 @@ name: CI Pipeline
 on:
   push:
     branches:
-      - 'main'
+      - 'main'  # Trigger on pushes to the 'main' branch
   pull_request:
     branches:
-      - 'main'
+      - 'main'  # Trigger on pull requests to the 'main' branch
 
 jobs:
   deploy:
@@ -21,6 +21,11 @@ jobs:
         with:
           node-version: '20.13.1'
           cache: 'npm'
+
+      - name: Remove node_modules and package-lock.json
+        run: |
+          rm -rf node_modules
+          rm -f package-lock.json
 
       - name: Install Dependencies
         run: npm install

@@ -12,7 +12,7 @@ import AboutUs from "./pages/Hospital/AboutUs";
 import EventsPage from "./pages/Charity/Events";
 import NotFoundPage from "./pages/NotFound";
 import ErrorBoundary from './components/Errorhandling';
-import DonationForm from './pages/Charity/Donate'; // Adjust the import path as needed
+import { DonationForm } from './pages/Charity/Donate'; // Correct the import
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 

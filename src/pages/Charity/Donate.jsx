@@ -69,10 +69,4 @@ const DonationForm = () => {
   );
 };
 
-const WrappedDonationForm = () => (
-  <Elements stripe={stripePromise}>
-    <DonationForm />
-  </Elements>
-);
-
-export { WrappedDonationForm as DonationForm };
+export { DonationForm };
