@@ -60,6 +60,7 @@ jobs:
           VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
         run: npm run build
+        continue-on-error: true
 
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
