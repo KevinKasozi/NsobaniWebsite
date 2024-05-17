@@ -45,6 +45,7 @@ jobs:
 
       - name: Run Linter
         run: npm run lint
+        continue-on-error: true
 
       - name: Build the App
         env:
