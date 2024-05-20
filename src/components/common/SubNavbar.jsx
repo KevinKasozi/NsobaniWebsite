@@ -1,51 +1,39 @@
-// SubNavbar.jsx
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-function SubNavbar() {
+const SubNavbar = ({ theme }) => {
   const location = useLocation();
   const isHospitalDomain = location.pathname.startsWith('/hospital');
   const isCharityDomain = location.pathname.startsWith('/charity');
 
-  // Define links for hospital and charity domains
-  const hospitalLinks = [
+  const links = isHospitalDomain ? [
     { path: '/hospital', label: 'Home', exact: true },
     { path: '/hospital/about', label: 'About' },
     { path: '/hospital/contact', label: 'Contact' },
     { path: '/hospital/ourservices', label: 'Our Services' }
-    // Add more hospital specific links here
-  ];
-
-  const charityLinks = [
+  ] : isCharityDomain ? [
+    { path: '/charity', label: 'Home', exact: true },
     { path: '/charity/about', label: 'About' },
     { path: '/charity/events', label: 'Events' },
     { path: '/charity/donate', label: 'Donate' }
-    // Add more charity specific links here
-  ];
+  ] : [];
 
-  // Choose links based on domain
-  const links = isHospitalDomain ? hospitalLinks : isCharityDomain ? charityLinks : [];
-
-  // Base styles for all subnav links
-  const baseStyle = "inline-block rounded-full py-1 px-3 mr-3";
-
-  // Determine the active tab color
   const activeTabColor = isHospitalDomain ? 'blue' : isCharityDomain ? 'red' : 'gray';
-
-  // Styles for subnav links
-  const linkStyle = `text-${activeTabColor}-500 hover:bg-${activeTabColor}-500 hover:text-white`;
+  const baseStyle = "inline-block rounded-full py-1 px-3 mr-3";
+  const bgClass = isHospitalDomain ? 'bg-blue-100' : isCharityDomain ? 'bg-red-100' : 'bg-gray-100';
+  const textClass = isHospitalDomain ? 'text-blue-500' : isCharityDomain ? 'text-red-500' : 'text-gray-500';
+  const hoverBgClass = isHospitalDomain ? 'hover:bg-blue-500' : isCharityDomain ? 'hover:bg-red-500' : 'hover:bg-gray-500';
+  const hoverTextClass = 'hover:text-white';
 
   return (
-    <div className={`p-2 bg-${activeTabColor}-100`}>
+    <div className={`p-2 ${bgClass}`}>
       <ul className="flex">
         {links.map(link => (
           <li key={link.path}>
             <NavLink 
               to={link.path}
-              className={({ isActive }) => 
-                `${baseStyle} ${isActive ? 'bg-' + activeTabColor + '-500 text-white' : 'text-' + activeTabColor + '-500 hover:bg-' + activeTabColor + '-500 hover:text-white'}`
-              }
-              exact={link.exact}
+              className={({ isActive }) => `${baseStyle} ${isActive ? `bg-${activeTabColor}-500 text-white` : `${textClass} ${hoverBgClass} ${hoverTextClass}`}`}
+              end={link.exact}
             >
               {link.label}
             </NavLink>
@@ -54,6 +42,6 @@ function SubNavbar() {
       </ul>
     </div>
   );
-}
+};
 
 export default SubNavbar;

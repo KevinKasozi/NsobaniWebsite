@@ -1,17 +1,20 @@
-// HospitalLayout.jsx
 import React from 'react';
-import Header from '../common/Header';
-import Footer from '../common/Footer';
-import hLogo from '../../assets/logos/hospital.png'; // Update with actual path
+import Header from './Header';
+import Footer from './Footer';
+import Navbar from './Navbar';
+import SubNavbar from './SubNavbar';
+import hLogo from '../../assets/logos/logo.png';
 
 const HospitalLayout = ({ children, activeTab, setActiveTab }) => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-blue-50">
       <Header logo={hLogo} activeTab={activeTab} setActiveTab={setActiveTab} />
-      <main className="flex-grow w-full px-4 sm:px-6 lg:px-80 py-4"> {/* Padding for main content */}
+      <Navbar />
+      <SubNavbar theme="hospital" />
+      <main className="flex-grow w-full px-4 sm:px-6 lg:px-8 py-4">
         {children}
       </main>
-      <Footer />
+      <Footer theme="hospital" />
     </div>
   );
 };

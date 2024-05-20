@@ -2,11 +2,11 @@ import React from 'react';
 
 const Statistic = () => {
   return (
-    <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+    <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20 bg-gray-50">
       <div className="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
         <div>
-          <p className="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-teal-900 uppercase rounded-full bg-teal-accent-400">
-            Brand new
+          <p className="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-teal-900 uppercase rounded-full bg-teal-100">
+            Health Statistics
           </p>
         </div>
         <h2 className="max-w-lg mb-6 font-sans text-3xl font-bold leading-none tracking-tight text-gray-900 sm:text-4xl md:mx-auto">
@@ -33,55 +33,65 @@ const Statistic = () => {
                 height="24"
               />
             </svg>
-            <span className="relative">The</span>
+            <span className="relative">Healthcare</span>
           </span>{' '}
-          quick, brown fox jumps over a lazy dog
+          in Uganda
         </h2>
         <p className="text-base text-gray-700 md:text-lg">
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque rem aperiam, eaque ipsa quae.
+          Uganda's healthcare system has made significant strides, but there are still challenges to overcome. Here are some key statistics that highlight the current state of healthcare in Uganda.
         </p>
       </div>
-      <div className="relative w-full p-px mx-auto mb-4 overflow-hidden transition-shadow duration-300 border rounded lg:mb-8 lg:max-w-4xl group hover:shadow-xl">
-        <div className="absolute bottom-0 left-0 w-full h-1 duration-300 origin-left transform scale-x-0 bg-deep-purple-accent-400 group-hover:scale-x-100" />
-        <div className="absolute bottom-0 left-0 w-1 h-full duration-300 origin-bottom transform scale-y-0 bg-deep-purple-accent-400 group-hover:scale-y-100" />
-        <div className="absolute top-0 left-0 w-full h-1 duration-300 origin-right transform scale-x-0 bg-deep-purple-accent-400 group-hover:scale-x-100" />
-        <div className="absolute bottom-0 right-0 w-1 h-full duration-300 origin-top transform scale-y-0 bg-deep-purple-accent-400 group-hover:scale-y-100" />
-        <div className="relative flex flex-col items-center h-full py-10 duration-300 bg-white rounded-sm transition-color sm:items-stretch sm:flex-row">
-          <div className="px-12 py-8 text-center">
-            <h6 className="text-4xl font-bold text-deep-purple-accent-400 sm:text-5xl">
+      <div className="relative w-full p-6 mx-auto mb-8 overflow-hidden transition-shadow duration-300 border rounded-lg shadow-sm lg:mb-12 lg:max-w-4xl bg-white group hover:shadow-xl">
+        <div className="absolute bottom-0 left-0 w-full h-1 duration-300 origin-left transform scale-x-0 bg-teal-400 group-hover:scale-x-100" />
+        <div className="absolute bottom-0 left-0 w-1 h-full duration-300 origin-bottom transform scale-y-0 bg-teal-400 group-hover:scale-y-100" />
+        <div className="absolute top-0 left-0 w-full h-1 duration-300 origin-right transform scale-x-0 bg-teal-400 group-hover:scale-x-100" />
+        <div className="absolute bottom-0 right-0 w-1 h-full duration-300 origin-top transform scale-y-0 bg-teal-400 group-hover:scale-y-100" />
+        <div className="relative flex flex-col items-center h-full duration-300 sm:items-stretch sm:flex-row sm:divide-x sm:divide-gray-300">
+          <div className="flex-1 px-4 py-8 text-center">
+            <h6 className="text-4xl font-bold text-gray-900 sm:text-5xl">
               82%
             </h6>
-            <p className="text-center md:text-base">
-              Lorem ipsum dolor adipiscing sit amet, consectetur elit.
+            <p className="mt-2 text-gray-600 md:text-base">
+              Access to basic healthcare services.
             </p>
           </div>
-          <div className="w-56 h-1 transition duration-300 transform bg-gray-300 rounded-full group-hover:bg-deep-purple-accent-400 group-hover:scale-110 sm:h-auto sm:w-1" />
-          <div className="px-12 py-8 text-center">
-            <h6 className="text-4xl font-bold text-deep-purple-accent-400 sm:text-5xl">
-              106.5K
+          <div className="flex-1 px-4 py-8 text-center">
+            <h6 className="text-4xl font-bold text-gray-900 sm:text-5xl">
+              6.2%
             </h6>
-            <p className="text-center md:text-base">
-              Lorem ipsum elit consectetur sit amet, adipiscing dolor.
+            <p className="mt-2 text-gray-600 md:text-base">
+              HIV prevalence among adults aged 15-49.
+            </p>
+          </div>
+          <div className="flex-1 px-4 py-8 text-center">
+            <h6 className="text-4xl font-bold text-gray-900 sm:text-5xl">
+              63 years
+            </h6>
+            <p className="mt-2 text-gray-600 md:text-base">
+              Average life expectancy at birth.
+            </p>
+          </div>
+          <div className="flex-1 px-4 py-8 text-center">
+            <h6 className="text-4xl font-bold text-gray-900 sm:text-5xl">
+              375/100,000
+            </h6>
+            <p className="mt-2 text-gray-600 md:text-base">
+              Maternal mortality rate.
             </p>
           </div>
         </div>
       </div>
       <p className="mx-auto mb-4 text-gray-600 sm:text-center lg:max-w-2xl lg:mb-6 md:px-16">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.
+        Uganda continues to work towards improving healthcare access and outcomes. The government and various organizations are actively involved in addressing these challenges.
       </p>
-
       <div className="flex justify-center">
         <a
           href="/hospital/about"
-          className="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 text-lg"
+          className="bg-teal-500 text-white px-6 py-3 rounded-full hover:bg-teal-600 transition duration-300 text-lg"
         >
           Learn More
         </a>
       </div>
-
-
     </div>
   );
 };

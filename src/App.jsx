@@ -1,49 +1,91 @@
-// App.jsx
+// src/App.jsx
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HospitalPage from './pages/Hospital/Hospitalpage.jsx';
-import CharityPage from './pages/Charity/Charitypage.jsx';
-import OurServices from './pages/Hospital/OurServices.jsx';
-import Contactus from './pages/Hospital/Contactus.jsx';
-import AboutUs from './pages/Hospital/Aboutus.jsx';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
+import HospitalPage from "./pages/Hospital/HospitalPage";
+import CharityPage from "./pages/Charity/CharityPage";
+import OurServices from "./pages/Hospital/OurServices";
+import ContactUs from "./pages/Hospital/ContactUs";
+import AboutUs from "./pages/Hospital/AboutUs";
+import EventsPage from "./pages/Charity/Events";
+import NotFoundPage from "./pages/NotFound";
+import SuccessPage from "./components/common/Success"; // Make sure to import SuccessPage
+import ErrorBoundary from './components/Errorhandling';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 function App() {
-  const [activeTab, setActiveTab] = useState('hospital'); // Default to hospital
-
-  const handleSearch = (searchTerm) => {
-    const allElements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li');
-  
-    allElements.forEach((element) => {
-      if (element.textContent.toLowerCase().includes(searchTerm.toLowerCase())) {
-        element.style.display = ''; // Show element
-      } else {
-        element.style.display = 'none'; // Hide element
-      }
-    });
-  };
+  const [activeTab, setActiveTab] = useState('hospital');
 
   return (
     <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={<HospitalPage />} // This will be the default route
-        />
-        <Route
-          path="/hospital"
-          element={<HospitalPage />}
-        />
-        <Route
-          path="/charity"
-          element={<CharityPage />}
-        />
-        {/* Routes for Hospital Sub-Pages */}
-        <Route path="/hospital/about" element={<AboutUs />} />
-        <Route path="/hospital/contact" element={<Contactus />} />
-        <Route path="/hospital/ourservices" element={<OurServices />} />
-        {/* Define other routes here */}
-      </Routes>
+      <ErrorBoundary>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Elements stripe={stripePromise}>
+                <HospitalPage activeTab={activeTab} setActiveTab={setActiveTab} />
+              </Elements>
+            }
+          />
+          <Route
+            path="/hospital"
+            element={
+              <Elements stripe={stripePromise}>
+                <HospitalPage activeTab={activeTab} setActiveTab={setActiveTab} />
+              </Elements>
+            }
+          />
+          <Route
+            path="/charity"
+            element={
+              <Elements stripe={stripePromise}>
+                <CharityPage activeTab={activeTab} setActiveTab={setActiveTab} />
+              </Elements>
+            }
+          />
+          <Route
+            path="/hospital/about"
+            element={
+              <Elements stripe={stripePromise}>
+                <AboutUs activeTab={activeTab} setActiveTab={setActiveTab} />
+              </Elements>
+            }
+          />
+          <Route
+            path="/hospital/contact"
+            element={
+              <Elements stripe={stripePromise}>
+                <ContactUs activeTab={activeTab} setActiveTab={setActiveTab} />
+              </Elements>
+            }
+          />
+          <Route
+            path="/hospital/ourservices"
+            element={
+              <Elements stripe={stripePromise}>
+                <OurServices activeTab={activeTab} setActiveTab={setActiveTab} />
+              </Elements>
+            }
+          />
+          <Route
+            path="/charity/events"
+            element={
+              <Elements stripe={stripePromise}>
+                <EventsPage activeTab={activeTab} setActiveTab={setActiveTab} />
+              </Elements>
+            }
+          />
+          <Route
+            path="/success"
+            element={<SuccessPage />} // Add this route to handle success redirects
+          />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </ErrorBoundary>
     </Router>
   );
 }
