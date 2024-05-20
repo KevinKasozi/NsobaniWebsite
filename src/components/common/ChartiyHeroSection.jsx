@@ -1,6 +1,7 @@
+// src/components/common/CharityHeroSection.jsx
 import React from 'react';
 import charityImage from '../../assets/img2/charity.jpg'; // Ensure the image path reflects impactful, charity-focused imagery
-import { DonationForm } from '../../pages/Charity/Donate'; // Correct import statement
+import DonationForm from '../../pages/Charity/Donate';
 
 const CharityHeroSection = () => {
   return (

@@ -1,9 +1,10 @@
+// src/pages/Charity/StripeCheckout.jsx
 import React, { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import DonationForm from './DonationForm';
+import DonationForm from './DonationForm'; // Ensure the path is correct
 
-const stripePromise = loadStripe(process.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const StripeCheckout = () => {
   const [clientSecret, setClientSecret] = useState('');
@@ -16,7 +17,7 @@ const StripeCheckout = () => {
         const response = await fetch('/.netlify/functions/createPaymentIntent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items: [{ id: 'item1', amount: 1000 }] })
+          body: JSON.stringify({ items: [{ id: 'item1', amount: 1000 }], shippingAddress: { name: 'John Doe', line1: '123 Main St', city: 'San Francisco', state: 'CA', postal_code: '94111', country: 'US' } })
         });
 
         if (!response.ok) {
@@ -24,6 +25,8 @@ const StripeCheckout = () => {
         }
 
         const data = await response.json();
+        console.log('Fetched client secret:', data.clientSecret);
+
         if (data.clientSecret) {
           setClientSecret(data.clientSecret);
         } else {
@@ -31,6 +34,7 @@ const StripeCheckout = () => {
         }
       } catch (err) {
         setError('Error fetching client secret: ' + err.message);
+        console.error('Error fetching client secret:', err);
       } finally {
         setLoading(false);
       }
@@ -47,7 +51,7 @@ const StripeCheckout = () => {
         <p>Error: {error}</p>
       ) : (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
-          <DonationForm />
+          <DonationForm clientSecret={clientSecret} />
         </Elements>
       )}
     </div>
