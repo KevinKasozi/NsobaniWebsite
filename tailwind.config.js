@@ -1,11 +1,22 @@
-/** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}", // Adjust the path according to your project structure
-    "./public/index.html" // If you use any Tailwind classes directly in your HTML
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./public/index.html",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'charity-primary': '#E10505',
+        'hospital-primary': '#0077B6',
+        'charity-secondary': '#FF6161',
+        'hospital-secondary': '#69B4E1',
+        'background': '#F7FAFC',
+      },
+      fontFamily: {
+        sans: ['Open Sans', 'sans-serif'],
+        serif: ['Merriweather', 'serif'],
+      },
+    },
   },
   plugins: [],
-}
+};

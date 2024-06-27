@@ -1,9 +1,12 @@
-name: Deploy
+name: CI Pipeline
 
 on:
   push:
     branches:
-      - 'feature/**'
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
 
 jobs:
   deploy:
@@ -11,28 +14,91 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '20.13.1'
+          cache: 'npm'
+
+      - name: Remove node_modules and package-lock.json
+        run: |
+          rm -rf node_modules
+          rm -f package-lock.json
 
       - name: Install Dependencies
         run: npm install
-        working-directory: ./NsobaniWebsite  # Correct the path to match your project structure
 
-      - name: List output files
-        run: ls -l ./NsobaniWebsite/dist  # Correct the path to match your project structure
+      - name: Install Deno
+        run: |
+          curl -fsSL https://deno.land/install.sh | sh
+          echo 'export DENO_INSTALL="$HOME/.deno"' >> $GITHUB_ENV
+          echo 'export PATH="$DENO_INSTALL/bin:$PATH"' >> $GITHUB_ENV
+
+      - name: Run Tests
+        env:
+          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+          VITE_NEXT_PUBLIC_STRIPE_PRICE_ID: ${{ secrets.VITE_NEXT_PUBLIC_STRIPE_PRICE_ID }}
+          VITE_REACT_APP_CONTENTFUL_SPACE_ID: ${{ secrets.VITE_REACT_APP_CONTENTFUL_SPACE_ID }}
+          VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN }}
+          VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN }}
+          VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+        run: npm test
+        continue-on-error: true
+
+      - name: Run Linter
+        run: npm run lint
+        continue-on-error: true
 
       - name: Build the App
+        env:
+          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+          VITE_NEXT_PUBLIC_STRIPE_PRICE_ID: ${{ secrets.VITE_NEXT_PUBLIC_STRIPE_PRICE_ID }}
+          VITE_REACT_APP_CONTENTFUL_SPACE_ID: ${{ secrets.VITE_REACT_APP_CONTENTFUL_SPACE_ID }}
+          VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN }}
+          VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN }}
+          VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
         run: npm run build
-        working-directory: ./NsobaniWebsite
-      
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.4
-        
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
+      - name: Link Netlify Site
+        run: netlify link --id ${{ secrets.NETLIFY_SITE_ID }}
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+
+      - name: Deploy to Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: netlify deploy --prod --dir=./dist --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
+
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          branch: get-website-deployed
-          folder: ./NsobaniWebsite/dist  # Correct the path to match your project structure
-          token: ${{ secrets.GH_PAGE_TOKEN }}
+          node-version: '20.13.1'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+      - name: Run npm audit
+        run: npm audit --audit-level=high
