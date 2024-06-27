@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Elements } from '@stripe/react-stripe-js';
@@ -11,7 +10,7 @@ import ContactUs from "./pages/Hospital/ContactUs";
 import AboutUs from "./pages/Hospital/AboutUs";
 import EventsPage from "./pages/Charity/Events";
 import NotFoundPage from "./pages/NotFound";
-import SuccessPage from "./components/common/Success"; // Make sure to import SuccessPage
+import SuccessPage from "./components/common/Success"; // Ensure this path is correct
 import ErrorBoundary from './components/Errorhandling';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -81,7 +80,7 @@ function App() {
           />
           <Route
             path="/success"
-            element={<SuccessPage />} // Add this route to handle success redirects
+            element={<SuccessPage />} // Ensure this path is correct
           />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

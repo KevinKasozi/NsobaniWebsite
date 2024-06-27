@@ -6,11 +6,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'charity-primary': '#E10505',  // Red for charity
-        'hospital-primary': '#0077B6',  // Blue for hospital
-        'charity-secondary': '#FF6161',  // Light red for charity
-        'hospital-secondary': '#69B4E1',  // Light blue for hospital
-        'background': '#F7FAFC',  // Light background
+        'charity-primary': '#E10505',
+        'hospital-primary': '#0077B6',
+        'charity-secondary': '#FF6161',
+        'hospital-secondary': '#69B4E1',
+        'background': '#F7FAFC',
       },
       fontFamily: {
         sans: ['Open Sans', 'sans-serif'],
